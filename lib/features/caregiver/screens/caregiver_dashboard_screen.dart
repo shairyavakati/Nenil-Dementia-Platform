@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_dimensions.dart';
 import '../../../core/constants/app_strings.dart';
+import '../../../core/theme/accessibility_provider.dart';
+import '../../../services/sync_service.dart';
 import '../../auth/providers/caregiver_auth_provider.dart';
 import '../../auth/widgets/pin_input_dialog.dart';
 import '../providers/caregiver_dashboard_provider.dart';
@@ -15,6 +17,7 @@ class CaregiverDashboardScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final dashState = ref.watch(caregiverDashboardProvider);
+    final accessState = ref.watch(accessibilityProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -60,10 +63,53 @@ class CaregiverDashboardScreen extends ConsumerWidget {
 
               // 3. Caregiver Actions List
               const Text(
-                'Caregiver Tools',
+                'Caregiver Tools & Sync',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.primary),
               ),
               const SizedBox(height: AppDimensions.spaceS),
+
+              ListTile(
+                leading: const Icon(Icons.sync_rounded, color: AppColors.primary),
+                title: const StringText('Sync Pending Offline Data'),
+                subtitle: const Text('Push unsynced local sessions to Supabase cloud'),
+                trailing: const Icon(Icons.cloud_upload_rounded),
+                onTap: () async {
+                  final synced = await SyncService.syncPendingSessions();
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Sync complete: $synced session(s) synchronized.'),
+                        backgroundColor: AppColors.primary,
+                      ),
+                    );
+                  }
+                },
+              ),
+
+              ListTile(
+                leading: const Icon(Icons.contrast_rounded, color: AppColors.primary),
+                title: const StringText('High Contrast Mode'),
+                subtitle: Text(accessState.isHighContrast ? 'Enabled' : 'Disabled'),
+                trailing: Switch(
+                  value: accessState.isHighContrast,
+                  onChanged: (_) {
+                    ref.read(accessibilityProvider.notifier).toggleHighContrast();
+                  },
+                ),
+              ),
+
+              ListTile(
+                leading: const Icon(Icons.text_fields_rounded, color: AppColors.primary),
+                title: const StringText('Enlarged Text Scale'),
+                subtitle: Text(accessState.isLargeTextEnabled ? '125% Larger Text' : 'Standard Text'),
+                trailing: Switch(
+                  value: accessState.isLargeTextEnabled,
+                  onChanged: (_) {
+                    ref.read(accessibilityProvider.notifier).toggleLargeText();
+                  },
+                ),
+              ),
+
               ListTile(
                 leading: const Icon(Icons.mic_rounded, color: AppColors.primary),
                 title: const StringText('Record Custom Voice Prompts'),
@@ -80,6 +126,7 @@ class CaregiverDashboardScreen extends ConsumerWidget {
                   }
                 },
               ),
+
               ListTile(
                 leading: const Icon(Icons.history_rounded, color: AppColors.primary),
                 title: const StringText('Session Activity History Logs'),
@@ -97,6 +144,7 @@ class CaregiverDashboardScreen extends ConsumerWidget {
                   }
                 },
               ),
+
               ListTile(
                 leading: const Icon(Icons.emergency_rounded, color: AppColors.emergency),
                 title: const StringText('Emergency SOS Contact Settings'),
@@ -114,6 +162,7 @@ class CaregiverDashboardScreen extends ConsumerWidget {
                   }
                 },
               ),
+
               ListTile(
                 leading: const Icon(Icons.link_rounded, color: AppColors.primary),
                 title: const StringText('Pair Patient & Caregiver Devices'),

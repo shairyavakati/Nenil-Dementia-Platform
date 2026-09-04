@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_dimensions.dart';
 import 'audio_prompt_widget.dart';
+import 'celebration_overlay.dart';
 
 /// GameWrapper — Calm container scaffold for game modules with top navigation & floating SOS button.
 class GameWrapper extends StatelessWidget {
@@ -10,6 +11,10 @@ class GameWrapper extends StatelessWidget {
   final Widget child;
   final VoidCallback onBack;
   final VoidCallback? onSosPressed;
+  final bool showCelebration;
+  final VoidCallback? onCelebrationDismissed;
+  final String celebrationTitle;
+  final String celebrationMessage;
 
   const GameWrapper({
     super.key,
@@ -18,6 +23,10 @@ class GameWrapper extends StatelessWidget {
     required this.child,
     required this.onBack,
     this.onSosPressed,
+    this.showCelebration = false,
+    this.onCelebrationDismissed,
+    this.celebrationTitle = 'Wonderful Job!',
+    this.celebrationMessage = 'You completed the activity with great care and attention.',
   });
 
   @override
@@ -37,11 +46,25 @@ class GameWrapper extends StatelessWidget {
           ),
         ],
       ),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(AppDimensions.spaceL),
-          child: child,
-        ),
+      body: Stack(
+        children: [
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(AppDimensions.spaceL),
+              child: child,
+            ),
+          ),
+          if (showCelebration)
+            CelebrationOverlay(
+              title: celebrationTitle,
+              message: celebrationMessage,
+              onDismiss: () {
+                if (onCelebrationDismissed != null) {
+                  onCelebrationDismissed!();
+                }
+              },
+            ),
+        ],
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: onSosPressed,
@@ -56,3 +79,4 @@ class GameWrapper extends StatelessWidget {
     );
   }
 }
+

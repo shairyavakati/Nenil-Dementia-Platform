@@ -1,0 +1,7 @@
+# Android Key Properties Template for Release Signing
+# Copy this file to android/key.properties and set your keystore values.
+
+storePassword=nenil-keystore-password
+keyPassword=nenil-key-password
+keyAlias=nenil-key-alias
+storeFile=../nenil-release-key.jks
