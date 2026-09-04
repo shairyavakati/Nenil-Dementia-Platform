@@ -12,7 +12,7 @@ void main() async {
   // 1. Initialize Hive cache
   await HiveConfig.initialize();
 
-  // 2. Initialize SQLite Database
+  // 2. Initialize SQLite Database (skipped on web — sqflite is mobile only)
   await AppDatabase.database;
 
   // 3. Initialize Supabase (with graceful offline fallback)

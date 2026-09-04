@@ -75,6 +75,19 @@ class HomeFeedNotifier extends StateNotifier<HomeFeedState> {
     try {
       final db = await AppDatabase.database;
 
+      if (db == null) {
+        // On web, SQLite is unavailable — use in-memory defaults
+        debugPrint('[HomeFeedNotifier] SQLite unavailable on web \u2014 using default feed data.');
+        final stage = ref.read(patientProfileProvider).stage;
+        final games = _filterGamesByStage(stage);
+        state = state.copyWith(
+          routines: _defaultRoutines(state.timeOfDay),
+          recommendedGames: games,
+          isLoading: false,
+        );
+        return;
+      }
+
       // 1. Fetch latest patient profile
       final patientMaps = await db.query('patients', limit: 1, orderBy: 'created_at DESC');
       PatientModel? patient;

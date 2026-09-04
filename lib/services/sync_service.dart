@@ -34,6 +34,11 @@ class SyncService {
 
     try {
       final db = await AppDatabase.database;
+      if (db == null) {
+        debugPrint('[SyncService] SQLite not available on this platform \u2014 skipping sync.');
+        _isSyncing = false;
+        return 0;
+      }
       final pendingRows = await db.query(
         'sessions',
         where: 'is_synced = ?',

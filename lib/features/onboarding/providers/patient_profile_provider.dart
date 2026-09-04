@@ -67,11 +67,13 @@ class PatientProfileNotifier extends StateNotifier<PatientProfileState> {
         createdAt: createdAt,
       );
 
-      await db.insert('patients', patient.toMap());
+      if (db != null) {
+        await db.insert('patients', patient.toMap());
+      }
       await HiveConfig.setOnboarded(true);
 
       state = state.copyWith(isSaved: true);
-      debugPrint('[PatientProfileNotifier] Patient profile saved to SQLite DB cleanly.');
+      debugPrint('[PatientProfileNotifier] Patient profile saved cleanly (SQLite available: ${db != null}).');
       return true;
     } catch (e) {
       debugPrint('[PatientProfileNotifier] Save error: $e');

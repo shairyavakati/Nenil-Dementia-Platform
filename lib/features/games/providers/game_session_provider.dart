@@ -15,6 +15,12 @@ class GameSessionNotifier extends StateNotifier<AsyncValue<void>> {
     state = const AsyncValue.loading();
     try {
       final db = await AppDatabase.database;
+      if (db == null) {
+        // On web, SQLite is unavailable — log and return success so games still complete
+        debugPrint('[GameSessionNotifier] SQLite unavailable on web \u2014 skipping session record.');
+        state = const AsyncValue.data(null);
+        return true;
+      }
       final sessionId = const Uuid().v4();
       final completedAt = DateTime.now().toIso8601String();
 

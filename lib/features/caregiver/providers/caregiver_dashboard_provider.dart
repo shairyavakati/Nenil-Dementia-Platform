@@ -43,6 +43,11 @@ class CaregiverDashboardNotifier extends StateNotifier<CaregiverDashboardState> 
   Future<void> loadCaregiverData() async {
     try {
       final db = await AppDatabase.database;
+      if (db == null) {
+        debugPrint('[CaregiverDashboardNotifier] SQLite unavailable on web \u2014 showing empty dashboard.');
+        state = state.copyWith(isLoading: false);
+        return;
+      }
       final maps = await db.query('sessions', orderBy: 'completed_at DESC');
 
       final history = maps.map((m) => SessionModel.fromMap(m)).toList();

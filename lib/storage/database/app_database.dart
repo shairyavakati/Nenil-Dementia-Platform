@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
-import 'package:path/path.dart';
+// sqflite is not supported on Flutter Web — all database operations are guarded by kIsWeb
+import 'package:path/path.dart' as p;
 import 'package:sqflite/sqflite.dart';
 
 /// AppDatabase — Manages local SQLite schema, migrations, and CRUD helpers.
@@ -9,7 +10,11 @@ class AppDatabase {
 
   static Database? _database;
 
-  static Future<Database> get database async {
+  static Future<Database?> get database async {
+    if (kIsWeb) {
+      debugPrint('[AppDatabase] SQLite not supported on Flutter Web — skipping.');
+      return null;
+    }
     if (_database != null) return _database!;
     _database = await _initDatabase();
     return _database!;
@@ -17,7 +22,7 @@ class AppDatabase {
 
   static Future<Database> _initDatabase() async {
     final dbPath = await getDatabasesPath();
-    final path = join(dbPath, _dbName);
+    final path = p.join(dbPath, _dbName);
 
     return await openDatabase(
       path,
@@ -159,6 +164,7 @@ class AppDatabase {
   }
 
   static Future<void> close() async {
+    if (kIsWeb) return;
     final db = _database;
     if (db != null) {
       await db.close();

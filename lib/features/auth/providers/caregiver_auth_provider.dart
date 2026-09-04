@@ -57,7 +57,9 @@ class CaregiverAuthNotifier extends StateNotifier<CaregiverAuthState> {
         createdAt: createdAt,
       );
 
-      await db.insert('caregivers', caregiver.toMap());
+      if (db != null) {
+        await db.insert('caregivers', caregiver.toMap());
+      }
       await HiveConfig.settingsBox.put(HiveConfig.keyCaregiverPin, pin);
 
       state = state.copyWith(
