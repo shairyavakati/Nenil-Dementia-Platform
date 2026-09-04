@@ -83,7 +83,79 @@ class AppDatabase {
       )
     ''');
 
-    debugPrint('[AppDatabase] SQLite schema creation complete.');
+    debugPrint('[AppDatabase] SQLite schema creation complete. Inserting SIH 2026 Hackathon seed data...');
+
+    // Seed Demo Patient Profile
+    await db.insert('patients', {
+      'id': 'patient-sih-1',
+      'name': 'Aideo Boro',
+      'stage': 'mild',
+      'preferred_language': 'as',
+      'avatar_url': null,
+      'created_at': DateTime.now().toIso8601String(),
+    });
+
+    // Seed Demo Caregiver Profile (PIN: 1234)
+    await db.insert('caregivers', {
+      'id': 'caregiver-sih-1',
+      'name': 'Rahul Boro',
+      'phone': '+91 98765 43210',
+      'relationship': 'Son',
+      'pin_hash': '1234',
+      'patient_id': 'patient-sih-1',
+      'created_at': DateTime.now().toIso8601String(),
+    });
+
+    // Seed Demo Past Game Sessions
+    await db.insert('sessions', {
+      'id': 'sess-1',
+      'patient_id': 'patient-sih-1',
+      'game_type': 'daily_routine',
+      'duration_seconds': 180,
+      'engagement_score': 9.2,
+      'completed_at': DateTime.now().subtract(const Duration(days: 1)).toIso8601String(),
+      'is_synced': 1,
+    });
+    await db.insert('sessions', {
+      'id': 'sess-2',
+      'patient_id': 'patient-sih-1',
+      'game_type': 'music_memory',
+      'duration_seconds': 240,
+      'engagement_score': 9.8,
+      'completed_at': DateTime.now().subtract(const Duration(hours: 4)).toIso8601String(),
+      'is_synced': 0,
+    });
+    await db.insert('sessions', {
+      'id': 'sess-3',
+      'patient_id': 'patient-sih-1',
+      'game_type': 'family_faces',
+      'duration_seconds': 150,
+      'engagement_score': 8.9,
+      'completed_at': DateTime.now().subtract(const Duration(hours: 1)).toIso8601String(),
+      'is_synced': 0,
+    });
+
+    // Seed Demo Daily Routines
+    await db.insert('routines', {
+      'id': 'rout-1',
+      'patient_id': 'patient-sih-1',
+      'title': 'Morning Assam Tea',
+      'time_of_day': 'Morning',
+      'audio_prompt_path': null,
+      'icon_name': 'local_cafe_rounded',
+      'is_completed': 1,
+    });
+    await db.insert('routines', {
+      'id': 'rout-2',
+      'patient_id': 'patient-sih-1',
+      'title': 'Water the Garden Plants',
+      'time_of_day': 'Afternoon',
+      'audio_prompt_path': null,
+      'icon_name': 'eco_rounded',
+      'is_completed': 0,
+    });
+
+    debugPrint('[AppDatabase] SIH 2026 Seed data inserted successfully.');
   }
 
   static Future<void> close() async {
