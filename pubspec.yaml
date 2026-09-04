@@ -1,0 +1,54 @@
+name: nenil
+description: "Offline-first multilingual cognitive gaming and memory assistance platform for elderly dementia patients in India's North East Region."
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.2.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  # State Management & Navigation
+  flutter_riverpod: ^2.5.1
+  go_router: ^14.2.0
+
+  # Offline Storage & Caching
+  sqflite: ^2.3.3+1
+  path: ^1.9.0
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  shared_preferences: ^2.2.3
+
+  # Backend & Synchronization
+  supabase_flutter: ^2.6.0
+  uuid: ^4.4.0
+
+  # Audio, TTS & Media
+  just_audio: ^0.9.38
+  record: ^5.1.2
+  flutter_tts: ^4.0.2
+
+  # UI, Fonts & Animations
+  google_fonts: ^6.2.1
+  lottie: ^3.1.2
+  permission_handler: ^11.3.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+  hive_generator: ^2.0.1
+  build_runner: ^2.4.9
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/audio/prompts/
+    - assets/audio/music/
+    - assets/animations/
