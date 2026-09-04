@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_dimensions.dart';
 import '../../../core/constants/app_strings.dart';
-import '../../../shared/widgets/audio_prompt_widget.dart';
-import '../../../shared/widgets/nenil_card.dart';
+import '../providers/home_feed_provider.dart';
+import '../widgets/daily_routine_card.dart';
+import '../widgets/greeting_header_widget.dart';
+import '../widgets/journey_feed_widget.dart';
 
-class PatientHomeScreen extends StatelessWidget {
+class PatientHomeScreen extends ConsumerWidget {
   const PatientHomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(homeFeedProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(AppStrings.titleHome),
@@ -22,60 +27,52 @@ class PatientHomeScreen extends StatelessWidget {
         ],
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(AppDimensions.spaceL),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    'Good Morning!',
-                    style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+        child: state.isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : RefreshIndicator(
+                onRefresh: () => ref.read(homeFeedProvider.notifier).loadHomeFeedData(),
+                child: SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  padding: const EdgeInsets.all(AppDimensions.spaceL),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // 1. Time-of-day spoken greeting header
+                      GreetingHeaderWidget(
+                        greetingText: state.greetingText,
+                        patientName: state.patient?.name ?? '',
+                        timeOfDay: state.timeOfDay,
+                      ),
+                      const SizedBox(height: AppDimensions.spaceL),
+
+                      // 2. Daily Routines Section
+                      if (state.routines.isNotEmpty) ...[
+                        const Text(
+                          'Daily Habits & Routine',
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.secondary,
+                          ),
+                        ),
+                        const SizedBox(height: AppDimensions.spaceS),
+                        ...state.routines.map(
+                          (routine) => DailyRoutineCard(
+                            routine: routine,
+                            onToggle: () {
+                              ref.read(homeFeedProvider.notifier).toggleRoutineCompletion(routine.id);
+                            },
+                          ),
+                        ),
+                        const SizedBox(height: AppDimensions.spaceL),
+                      ],
+
+                      // 3. Stage-Adapted Cognitive Journey Games Feed
+                      JourneyFeedWidget(games: state.recommendedGames),
+                    ],
                   ),
-                  AudioPromptWidget(textToSpeak: 'Good Morning! Let us begin today\'s activities.'),
-                ],
+                ),
               ),
-              const SizedBox(height: AppDimensions.spaceL),
-              const Text(
-                'Recommended Activities',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.primary),
-              ),
-              const SizedBox(height: AppDimensions.spaceM),
-              NenilCard(
-                title: AppStrings.gameDailyRoutine,
-                subtitle: 'Morning routine visual guide',
-                icon: Icons.wb_sunny_rounded,
-                onTap: () => context.push('/game/daily_routine'),
-              ),
-              NenilCard(
-                title: AppStrings.gameFindThings,
-                subtitle: 'Find your reading glasses',
-                icon: Icons.search_rounded,
-                onTap: () => context.push('/game/find_things'),
-              ),
-              NenilCard(
-                title: AppStrings.gameFamilyFaces,
-                subtitle: 'Stories of family members',
-                icon: Icons.people_rounded,
-                onTap: () => context.push('/game/family_faces'),
-              ),
-              NenilCard(
-                title: AppStrings.gameMusicMemory,
-                subtitle: 'Folk songs & regional music',
-                icon: Icons.music_note_rounded,
-                onTap: () => context.push('/game/music_memory'),
-              ),
-              NenilCard(
-                title: AppStrings.gameEmotionMatch,
-                subtitle: 'Facial expression recognition',
-                icon: Icons.sentiment_satisfied_alt_rounded,
-                onTap: () => context.push('/game/emotion_match'),
-              ),
-            ],
-          ),
-        ),
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => context.push('/emergency'),
