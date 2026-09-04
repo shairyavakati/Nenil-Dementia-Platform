@@ -60,7 +60,7 @@ class CaregiverAuthNotifier extends StateNotifier<CaregiverAuthState> {
       if (db != null) {
         await db.insert('caregivers', caregiver.toMap());
       }
-      await HiveConfig.settingsBox.put(HiveConfig.keyCaregiverPin, pin);
+      await HiveConfig.setCaregiverPin(pin);
 
       state = state.copyWith(
         currentCaregiver: caregiver,
@@ -76,7 +76,7 @@ class CaregiverAuthNotifier extends StateNotifier<CaregiverAuthState> {
   }
 
   bool verifyPin(String pin) {
-    final savedPin = HiveConfig.settingsBox.get(HiveConfig.keyCaregiverPin) as String?;
+    final savedPin = HiveConfig.getCaregiverPin();
     if (savedPin == null) return pin == '1234'; // Default fallback PIN for testing
     return savedPin == pin;
   }

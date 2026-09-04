@@ -14,8 +14,9 @@ void main() {
       ),
     );
 
-    // Allow all animations and async frames to settle
-    await tester.pump();
+    // Allow initial frames and delayed navigation timer (2s splash delay) to complete
+    await tester.pump(const Duration(seconds: 3));
+    await tester.pumpAndSettle();
 
     // Verify app renders something (initial route exists)
     expect(find.byType(NenilApp), findsOneWidget);

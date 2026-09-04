@@ -18,21 +18,35 @@ class HiveConfig {
     }
   }
 
-  static Box get settingsBox => Hive.box(settingsBoxName);
+  static Box? get settingsBox => Hive.isBoxOpen(settingsBoxName) ? Hive.box(settingsBoxName) : null;
 
   static String getPreferredLanguage() {
-    return settingsBox.get(keyLanguage, defaultValue: 'en') as String;
+    if (!Hive.isBoxOpen(settingsBoxName)) return 'en';
+    return Hive.box(settingsBoxName).get(keyLanguage, defaultValue: 'en') as String? ?? 'en';
   }
 
   static Future<void> setPreferredLanguage(String langCode) async {
-    await settingsBox.put(keyLanguage, langCode);
+    if (!Hive.isBoxOpen(settingsBoxName)) return;
+    await Hive.box(settingsBoxName).put(keyLanguage, langCode);
   }
 
   static bool isOnboarded() {
-    return settingsBox.get(keyIsOnboarded, defaultValue: false) as bool;
+    if (!Hive.isBoxOpen(settingsBoxName)) return false;
+    return Hive.box(settingsBoxName).get(keyIsOnboarded, defaultValue: false) as bool? ?? false;
   }
 
   static Future<void> setOnboarded(bool value) async {
-    await settingsBox.put(keyIsOnboarded, value);
+    if (!Hive.isBoxOpen(settingsBoxName)) return;
+    await Hive.box(settingsBoxName).put(keyIsOnboarded, value);
+  }
+
+  static String? getCaregiverPin() {
+    if (!Hive.isBoxOpen(settingsBoxName)) return null;
+    return Hive.box(settingsBoxName).get(keyCaregiverPin) as String?;
+  }
+
+  static Future<void> setCaregiverPin(String pin) async {
+    if (!Hive.isBoxOpen(settingsBoxName)) return;
+    await Hive.box(settingsBoxName).put(keyCaregiverPin, pin);
   }
 }
