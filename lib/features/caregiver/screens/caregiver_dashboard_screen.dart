@@ -98,6 +98,23 @@ class CaregiverDashboardScreen extends ConsumerWidget {
                 },
               ),
               ListTile(
+                leading: const Icon(Icons.emergency_rounded, color: AppColors.emergency),
+                title: const StringText('Emergency SOS Contact Settings'),
+                subtitle: const Text('Configure primary emergency phone number'),
+                trailing: const Icon(Icons.chevron_right_rounded),
+                onTap: () async {
+                  final unlocked = await showDialog<bool>(
+                    context: context,
+                    builder: (ctx) => PinInputDialog(
+                      onVerify: (pin) => ref.read(caregiverAuthProvider.notifier).verifyPin(pin),
+                    ),
+                  );
+                  if (unlocked == true && context.mounted) {
+                    context.push('/emergency-config');
+                  }
+                },
+              ),
+              ListTile(
                 leading: const Icon(Icons.link_rounded, color: AppColors.primary),
                 title: const StringText('Pair Patient & Caregiver Devices'),
                 trailing: const Icon(Icons.chevron_right_rounded),

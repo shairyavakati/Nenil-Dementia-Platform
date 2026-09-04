@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import '../../features/auth/screens/caregiver_auth_screen.dart';
 import '../../features/auth/screens/pin_setup_screen.dart';
 import '../../features/caregiver/screens/caregiver_dashboard_screen.dart';
+import '../../features/caregiver/screens/emergency_config_screen.dart';
 import '../../features/caregiver/screens/patient_linking_screen.dart';
 import '../../features/caregiver/screens/session_history_screen.dart';
 import '../../features/caregiver/screens/voice_recording_screen.dart';
@@ -103,6 +104,10 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: '/voice-recording',
       builder: (context, state) => const VoiceRecordingScreen(),
+    ),
+    GoRoute(
+      path: '/emergency-config',
+      builder: (context, state) => const EmergencyConfigScreen(),
     ),
 
     GoRoute(
