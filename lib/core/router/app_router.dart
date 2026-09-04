@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 import '../../features/auth/screens/caregiver_auth_screen.dart';
 import '../../features/auth/screens/pin_setup_screen.dart';
 import '../../features/caregiver/screens/caregiver_dashboard_screen.dart';
+import '../../features/caregiver/screens/patient_linking_screen.dart';
+import '../../features/caregiver/screens/session_history_screen.dart';
 import '../../features/caregiver/screens/voice_recording_screen.dart';
 import '../../features/emergency/screens/emergency_screen.dart';
 import '../../features/games/screens/daily_routine_game_screen.dart';
@@ -84,14 +86,25 @@ final GoRouter appRouter = GoRouter(
       path: '/game-completion',
       builder: (context, state) => const GameCompletionScreen(),
     ),
+
+    // Sprint 4 Caregiver Companion Routes
     GoRoute(
       path: '/caregiver-dashboard',
       builder: (context, state) => const CaregiverDashboardScreen(),
     ),
     GoRoute(
+      path: '/session-history',
+      builder: (context, state) => const SessionHistoryScreen(),
+    ),
+    GoRoute(
+      path: '/patient-linking',
+      builder: (context, state) => const PatientLinkingScreen(),
+    ),
+    GoRoute(
       path: '/voice-recording',
       builder: (context, state) => const VoiceRecordingScreen(),
     ),
+
     GoRoute(
       path: '/emergency',
       builder: (context, state) => const EmergencyScreen(),
