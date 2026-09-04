@@ -8,6 +8,8 @@ import '../../features/caregiver/screens/patient_linking_screen.dart';
 import '../../features/caregiver/screens/session_history_screen.dart';
 import '../../features/caregiver/screens/voice_recording_screen.dart';
 import '../../features/emergency/screens/emergency_screen.dart';
+import '../../features/games/screens/call_for_help_practice_screen.dart';
+import '../../features/games/screens/comfort_choice_screen.dart';
 import '../../features/games/screens/daily_routine_game_screen.dart';
 import '../../features/games/screens/emotion_match_game_screen.dart';
 import '../../features/games/screens/family_faces_game_screen.dart';
@@ -15,6 +17,10 @@ import '../../features/games/screens/find_my_things_game_screen.dart';
 import '../../features/games/screens/game_completion_screen.dart';
 import '../../features/games/screens/game_module_screen.dart';
 import '../../features/games/screens/music_memory_game_screen.dart';
+import '../../features/games/screens/picture_recipe_screen.dart';
+import '../../features/games/screens/safe_home_choices_screen.dart';
+import '../../features/games/screens/sort_category_screen.dart';
+import '../../features/games/screens/virtual_garden_screen.dart';
 import '../../features/home/screens/patient_home_screen.dart';
 import '../../features/onboarding/screens/language_selection_screen.dart';
 import '../../features/onboarding/screens/patient_profile_screen.dart';
@@ -54,7 +60,7 @@ final GoRouter appRouter = GoRouter(
       builder: (context, state) => const PatientHomeScreen(),
     ),
 
-    // Sprint 3 Game Module Routes
+    // Game Module Routes
     GoRoute(
       path: '/game/daily_routine',
       builder: (context, state) => const DailyRoutineGameScreen(),
@@ -76,6 +82,30 @@ final GoRouter appRouter = GoRouter(
       builder: (context, state) => const EmotionMatchGameScreen(),
     ),
     GoRoute(
+      path: '/game/safe_choices',
+      builder: (context, state) => const SafeHomeChoicesScreen(),
+    ),
+    GoRoute(
+      path: '/game/picture_recipe',
+      builder: (context, state) => const PictureRecipeScreen(),
+    ),
+    GoRoute(
+      path: '/game/sort_category',
+      builder: (context, state) => const SortCategoryScreen(),
+    ),
+    GoRoute(
+      path: '/game/virtual_garden',
+      builder: (context, state) => const VirtualGardenScreen(),
+    ),
+    GoRoute(
+      path: '/game/comfort_choice',
+      builder: (context, state) => const ComfortChoiceScreen(),
+    ),
+    GoRoute(
+      path: '/game/call_help_practice',
+      builder: (context, state) => const CallForHelpPracticeScreen(),
+    ),
+    GoRoute(
       path: '/game/:gameId',
       builder: (context, state) {
         final gameId = state.pathParameters['gameId'] ?? 'daily_routine';
@@ -88,7 +118,7 @@ final GoRouter appRouter = GoRouter(
       builder: (context, state) => const GameCompletionScreen(),
     ),
 
-    // Sprint 4 Caregiver Companion Routes
+    // Caregiver Companion Routes
     GoRoute(
       path: '/caregiver-dashboard',
       builder: (context, state) => const CaregiverDashboardScreen(),
