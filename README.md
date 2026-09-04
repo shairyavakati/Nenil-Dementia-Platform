@@ -6,6 +6,7 @@
 
 <br/>
 
+![Status](https://img.shields.io/badge/Status-Sprints%200--6%20Complete-brightgreen?style=for-the-badge&logo=github)
 ![Flutter](https://img.shields.io/badge/Flutter-3.x-02569B?style=for-the-badge&logo=flutter&logoColor=white)
 ![Supabase](https://img.shields.io/badge/Supabase-Backend-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)
@@ -39,7 +40,7 @@ Unlike standard brain-training apps that emphasize high scores, speed, or compet
 
 - **Daily Cognitive Journey** — Patients experience a calm, guided daily routine of activities tailored to their time of day and energy level.
 - **No Scores or Timers** — Games progress at the patient's natural pace. Urgency cues and clock pressure are strictly eliminated.
-- **Positive Reinforcement Only** — There are no wrong answers, error sounds, or failure screens. Every attempt is greeted with gentle, encouraging feedback.
+- **Positive Reinforcement Only** — There are no wrong answers, error sounds, or failure screens. Every attempt is greeted with gentle, encouraging feedback and celebration overlays.
 - **Familiar Contexts** — Exercises use real family photos, caregiver voice recordings, and regional NER music rather than abstract puzzles.
 
 ---
@@ -65,10 +66,10 @@ The platform delivers structured cognitive engagement through familiar, cultural
 
 Key pillars of the solution:
 
-- **Offline-first** — Full gameplay and routine support without an internet connection. Synchronization happens in the background when connectivity is restored.
+- **Offline-first** — Full gameplay and routine support without an internet connection. Synchronization happens in the background via `SyncService` when connectivity is restored.
 - **Multilingual** — Supports regional NER languages alongside Assamese, Hindi, and English, with caregiver-recorded audio for deeply personal guidance.
 - **Stage-based** — Content and interaction complexity adapt to early, mid, and late-stage dementia, ensuring appropriateness and reducing frustration.
-- **Caregiver-powered** — Family members and caregivers are active participants. They configure routines, record voices, link accounts, and monitor progress.
+- **Caregiver-powered** — Family members and caregivers are active participants. They configure routines, record voices, link accounts, set emergency contacts, and monitor progress.
 - **Culturally rooted** — Games, music, and imagery draw from familiar NER cultural contexts — not generic Western dementia toolkits.
 
 ---
@@ -88,13 +89,13 @@ Personalized Home ───────► Audio Greeting & Daily Routine Overvi
 Today's Cognitive Journey─► Stage-Appropriate Activity Recommendation
    │
    ▼
-Game Session ────────────► Calm Gameplay with Caregiver Voice Guidance
+Game Session ────────────► Calm Gameplay with Celebration Overlay & Audio Guidance
    │
    ▼
-Caregiver Progress ──────► Session Analytics & Engagement Metrics Saved
+Caregiver Progress ──────► Session Analytics & Engagement Metrics Saved in SQLite
    │
    ▼
-Safety Support ──────────► One-Tap SOS & Location Sharing Always Available
+Safety Support ──────────► 5s Countdown SOS, Direct Call & GPS Location Sharing
 ```
 
 ---
@@ -103,50 +104,36 @@ Safety Support ──────────► One-Tap SOS & Location Sharing 
 
 ### Cognitive Gaming
 
-| Game | Description |
-|---|---|
-| **My Daily Routine** | Guides patients through familiar morning-to-evening routines using audio prompts and visual imagery |
-| **Find My Things** | Object-location memory exercises using personally meaningful household items |
-| **Family Faces & Stories** | Photo-based recognition games using the patient's own family photos and caregiver audio captions |
-| **Music Memory Journey** | Familiar regional and personal music prompts emotional memory, nostalgia, and engagement |
-| **Emotion Match** | Gentle emotion recognition exercises using illustrated familiar faces and voice cues |
+| Game | Description | Status |
+|---|---|---|
+| **My Daily Routine** | Guides patients through familiar morning-to-evening routines using audio prompts and visual imagery | `Complete` |
+| **Find My Things** | Object-location memory exercises using personally meaningful household items | `Complete` |
+| **Family Faces & Stories** | Photo-based recognition games using the patient's own family photos and caregiver audio captions | `Complete` |
+| **Music Memory Journey** | Familiar regional and personal music prompts emotional memory, nostalgia, and engagement | `Complete` |
+| **Emotion Match** | Gentle emotion recognition exercises using illustrated familiar faces and voice cues | `Complete` |
 
 ### Caregiver Companion
 
 - **Patient–caregiver linking** — Secure QR code or numerical code account pairing
-- **Permission-based access** — Caregivers access only authorized features and settings
-- **Caregiver dashboard** — Central hub for managing patient profiles, games, routines, and voice recordings
+- **Permission-based access** — PIN-protected Caregiver Dashboard locking settings and configuration
+- **Caregiver dashboard** — Central hub for managing patient profiles, games, routines, voice recordings, and offline sync
 - **Session history** — Comprehensive logs of completed sessions, duration, and engagement levels
 - **Caregiver insights** — Behavioral trends and actionable engagement guidance for families
 
 ### Safety Layer
 
-- **Emergency support** — One-tap SOS trigger easily accessible from the patient home interface
+- **Emergency support** — Floating SOS trigger with a 5-second safety countdown to prevent accidental triggers
 - **Direct calling** — Instant voice call connection to registered primary caregivers
 - **Voice-activated calling** — Spoken-word emergency call initiation for hands-free assistance
-- **Real-time location sharing** — Automatic GPS location broadcasting to linked caregivers during emergency triggers
+- **Real-time location sharing** — Automatic GPS location coordinate broadcasting to linked caregivers during emergency triggers
 
-### Accessibility
+### Accessibility & Polish
 
 - **Large touch targets** — Minimum 56dp interaction areas optimized for aging motor control
-- **Voice-first interaction** — Spoken audio guidance for every screen, menu, and interactive prompt
-- **Offline-first gameplay** — Zero internet connection required for core gaming and daily routines
-- **PIN-protected caregiver mode** — Protects settings, profile data, and configuration from accidental alteration
-
----
-
-## MVP Scope
-
-The initial production build for SIH 2026 focuses on delivering a complete, stable, and demonstrable experience:
-
-- **Five core game modules** — My Daily Routine, Find My Things, Family Faces & Stories, Music Memory Journey, and Emotion Match
-- **Caregiver onboarding** — Account creation, patient linking, profile configuration, and voice recording
-- **Multilingual support** — Language selection with regional language content packs
-- **Offline functionality** — All gameplay fully functional without internet access
-- **Secure synchronization** — Background sync to Supabase when connectivity is available
-
-> [!NOTE]
-> The MVP is scoped to demonstrate clinical viability and technical excellence. Subsequent phases will expand language coverage, game depth, and reporting.
+- **Voice-first interaction** — Spoken audio guidance / TTS for every screen, menu, and interactive prompt
+- **High-Contrast & Large Text Modes** — Built-in `AccessibilityProvider` with visual accessibility toggles
+- **Celebration Overlay** — Star particle effects and warm congratulatory speech on game completion
+- **Offline-first gameplay** — Zero internet connection required for core gaming, routines, and emergency fallback
 
 ---
 
@@ -165,7 +152,7 @@ The initial production build for SIH 2026 focuses on delivering a complete, stab
 | **Media Storage** | Supabase Storage |
 | **Audio** | just\_audio + record |
 | **Text-to-Speech** | Android Native TTS |
-| **Animations** | Lottie |
+| **Animations** | Custom Particle Canvas + Lottie |
 | **UI/UX Design** | Figma |
 | **Version Control** | Git & GitHub |
 
@@ -203,18 +190,18 @@ The initial production build for SIH 2026 focuses on delivering a complete, stab
                      ▼
 ┌─────────────────────────────────────────┐
 │          Caregiver Companion            │
-│    Session History · Insights · Config  │
+│  Session History · Insights · Sync     │
 └────────────────────┬────────────────────┘
                      │
                      ▼
 ┌─────────────────────────────────────────┐
 │             Safety Layer                │
-│     SOS · Direct Call · Location        │
+│   SOS 5s Countdown · Direct Call · GPS │
 └─────────────────────────────────────────┘
 ```
 
 > [!IMPORTANT]
-> All game modules operate fully offline via SQLite. Supabase sync occurs only when connectivity is available, never blocking user experience.
+> All game modules operate fully offline via SQLite. Background Supabase synchronization occurs seamlessly when internet connectivity is detected.
 
 ---
 
@@ -223,55 +210,49 @@ The initial production build for SIH 2026 focuses on delivering a complete, stab
 ```text
 nenil/
 ├── lib/
-│   ├── core/                  # App-wide constants, theme, routing config
+│   ├── core/                  # Theme, accessibility, constants, routing config
 │   ├── features/
 │   │   ├── onboarding/        # Patient & caregiver registration flows
-│   │   ├── caregiver/         # Dashboard, linking, session history
-│   │   ├── home/              # Activity feed, routine overview
-│   │   └── games/             # All five game modules
-│   ├── services/              # Sync, TTS, audio, location, emergency
+│   │   ├── caregiver/         # Dashboard, linking, session history, emergency config
+│   │   ├── home/              # Patient home feed, journey feed, greeting header
+│   │   ├── games/             # All five cognitive game modules
+│   │   └── emergency/         # SOS, 5s countdown timer, call & GPS location
+│   ├── services/              # Sync, TTS, audio, voice recording, location, calling
 │   ├── storage/               # SQLite & Hive adapters
-│   ├── models/                # Data models and serialization
-│   └── shared/                # Reusable widgets, utilities, extensions
-├── assets/
-│   ├── images/                # Illustrated UI assets, activity imagery
-│   ├── audio/                 # Default audio prompts and music packs
-│   └── animations/            # Lottie animation files
-└── supabase/
-    ├── migrations/            # Database schema migrations
-    └── functions/             # Edge functions for sync and notifications
+│   ├── models/                # Patient, Caregiver, Session, Routine models
+│   └── shared/                # Celebration overlay, Nenil buttons, cards, audio prompt
+├── android/                   # Native Android setup & key.properties template
+├── assets/                    # Image assets, audio prompts, and animations
+└── DEVELOPMENT_WORKFLOW.md    # Master engineering blueprint
 ```
 
 ---
 
-## Development Roadmap
+## Development Roadmap & Status
 
 | Sprint | Focus | Gameplay / Engineering Outcome | Status |
 |---|---|---|---|
 | **Sprint 0 — Foundation** | Project setup, navigation, design system, local DB schema | App shell, theme tokens, router stubs, SQLite tables initialized | `Complete` |
-| **Sprint 1 — Caregiver World** | Patient & caregiver registration, PIN auth, profile setup, voice recording | Onboarding flow, PIN security, caregiver voice capture service | `In Progress` |
-| **Sprint 2 — Home Experience** | Personalized patient home screen, routine overview, daily journey feed | Functional home feed, audio greeting, stage-based activity selector | `Planned` |
-| **Sprint 3 — Core Game Pack** | All 5 MVP games (Routine, Things, Faces, Music, Emotions) | Complete offline game pack playable with voice guidance | `Planned` |
-| **Sprint 4 — Caregiver Companion** | Dashboard, patient-caregiver linking, session history, analytics | Caregiver dashboard live with session metrics & configuration tools | `Planned` |
-| **Sprint 5 — Safety Layer** | Emergency SOS, direct caregiver calling, location sharing | One-tap SOS and voice-activated emergency calling functional | `Planned` |
-| **Sprint 6 — Production Polish** | Offline background sync, Lottie animations, accessibility audit | Release-ready signed APK with background Supabase synchronization | `Planned` |
+| **Sprint 1 — Caregiver World** | Patient & caregiver registration, PIN auth, profile setup, voice recording | Onboarding flow, PIN security, caregiver voice capture service | `Complete` |
+| **Sprint 2 — Home Experience** | Personalized patient home screen, routine overview, daily journey feed | Functional home feed, audio greeting, stage-based activity selector | `Complete` |
+| **Sprint 3 — Core Game Pack** | All 5 MVP games (Routine, Things, Faces, Music, Emotions) | Complete offline game pack playable with voice guidance | `Complete` |
+| **Sprint 4 — Caregiver Companion** | Dashboard, patient-caregiver linking, session history, analytics | Caregiver dashboard live with session metrics & configuration tools | `Complete` |
+| **Sprint 5 — Safety Layer** | Emergency SOS, 5s countdown, direct caregiver calling, location sharing | One-tap SOS, 5s safety countdown timer, direct call & GPS functional | `Complete` |
+| **Sprint 6 — Production Polish** | Background offline sync engine, celebration overlay, accessibility audit | Signed release configuration, celebration animations & sync engine | `Complete` |
 
 ---
 
 ## Design Principles
 
-Nenil's interface is governed by a strict set of design principles that prioritize dignity, calm, and clarity above all else.
+Nenil's interface is governed by a strict set of design principles that prioritize dignity, calm, and clarity above all else:
 
 1. **One task per screen** — No cognitive overload. Each screen has one clear purpose and one clear action.
-2. **No timers** — Patients are never rushed. There are no countdown clocks or urgency cues.
-3. **No failure screens** — Activities do not produce error states or correction prompts. Every response is accepted with encouragement.
+2. **No timers in games** — Patients are never rushed. There are no countdown clocks or urgency cues in gameplay.
+3. **No failure screens** — Activities do not produce error states or correction prompts. Every response is accepted with encouragement and celebratory star particles.
 4. **Calm interactions** — Gentle animations, soft transitions, and no sudden visual changes.
-5. **Voice-first guidance** — Every screen can be fully navigated through audio instructions alone.
+5. **Voice-first guidance** — Every screen can be fully navigated through audio instructions / TTS.
 6. **Large touch targets** — All interactive elements meet or exceed 56dp minimum touch area.
-7. **Offline-first** — The app is fully functional without connectivity. The network is never a blocker.
-
-> [!TIP]
-> These principles are enforced at the design review stage. Any new screen or feature must satisfy all seven before it enters development.
+7. **Offline-first** — The app is 100% functional without connectivity. The network is never a blocker.
 
 ---
 
@@ -280,26 +261,11 @@ Nenil's interface is governed by a strict set of design principles that prioriti
 Patient data, family media, and caregiver information are handled with clinical-grade care.
 
 - **Encrypted local storage** — All SQLite and Hive data is encrypted at rest using device-level encryption
-- **Permission-based caregiver access** — Caregivers can only access data and controls explicitly granted by the primary account holder
-- **Secure authentication** — Supabase Auth with JWT session management and refresh token rotation
-- **Protected family media** — Photos, audio recordings, and personal assets are stored in private Supabase Storage buckets with signed URL access
+- **Permission-based caregiver access** — Caregivers can only access data and controls explicitly protected by PIN verification
+- **Protected family media** — Photos, audio recordings, and personal assets are stored securely with offline fallbacks
 - **Privacy-first data handling** — No personally identifiable data is shared with third parties. Analytics are aggregate and anonymized.
 
-> [!CAUTION]
-> Patient profile data, family photos, and recorded audio are never stored in public cloud buckets. All media access is authenticated and session-scoped.
-
 ---
-
-## Future Expansion
-
-The following capabilities are planned beyond the SIH 2026 MVP, aligned with the product's long-term vision:
-
-- **Additional NER languages** — Expanding the language pack library to cover more of the region's 200+ dialects, prioritized by community need
-- **Expanded game modules** — New culturally grounded activities (traditional games, storytelling formats, regional craft-based exercises)
-- **Clinical pilot programs** — Structured pilots with geriatric care facilities and community health workers in NER states
-- **Improved caregiver reporting** — Longitudinal engagement analytics and caregiver-facing trend summaries to support informed care decisions
-
-
 
 <div align="center">
 
