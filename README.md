@@ -299,17 +299,7 @@ The following capabilities are planned beyond the SIH 2026 MVP, aligned with the
 - **Clinical pilot programs** — Structured pilots with geriatric care facilities and community health workers in NER states
 - **Improved caregiver reporting** — Longitudinal engagement analytics and caregiver-facing trend summaries to support informed care decisions
 
----
 
-## Contributors
-
-| Name | Role |
-|---|---|
-| — | — |
-
-> We welcome contributors who are passionate about accessibility, regional language technology, and inclusive healthcare. See [CONTRIBUTING.md](./CONTRIBUTING.md) to get started.
-
----
 
 <div align="center">
 
