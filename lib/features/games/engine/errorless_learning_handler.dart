@@ -10,11 +10,11 @@ class ErrorlessLearningHandler {
   }) async {
     if (isCorrect) {
       debugPrint('[ErrorlessLearning] Target selected correctly.');
-      TTSService.speak('Wonderful! That is correct.');
+      TtsService.speak('Wonderful! That is correct.');
     } else {
       debugPrint('[ErrorlessLearning] Non-target selected. Triggering positive errorless guidance.');
       // Spoken guidance without error sounds or failure screens
-      TTSService.speak('Let\'s choose $correctOptionTitle together.');
+      TtsService.speak('Let\'s choose $correctOptionTitle together.');
       onGuideToCorrect();
     }
   }

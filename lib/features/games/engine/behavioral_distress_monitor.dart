@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../../services/tts_service.dart';
@@ -48,7 +47,7 @@ class BehavioralDistressMonitor {
     _tapCount = 0;
     _totalLatencySeconds = 0;
 
-    TTSService.speak('Let\'s take a gentle rest together and listen to calm music.');
+    TtsService.speak('Let\'s take a gentle rest together and listen to calm music.');
 
     if (context.mounted) {
       context.push('/game/comfort_choice');

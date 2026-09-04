@@ -30,7 +30,6 @@ class AdaptiveFeedEngine {
     required DateTime currentTime,
   }) {
     final stage = patient?.stage ?? 'mild';
-    final preferredLang = patient?.preferredLanguage ?? 'en';
     final hour = currentTime.hour;
 
     // 1. All available activity modules catalog

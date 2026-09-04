@@ -9,6 +9,7 @@ class NenilCard extends StatelessWidget {
   final IconData icon;
   final VoidCallback onTap;
   final Color accentColor;
+  final Color? backgroundColor;
   final Widget? trailing;
 
   const NenilCard({
@@ -18,6 +19,7 @@ class NenilCard extends StatelessWidget {
     required this.icon,
     required this.onTap,
     this.accentColor = AppColors.primary,
+    this.backgroundColor,
     this.trailing,
   });
 
@@ -25,6 +27,7 @@ class NenilCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: AppDimensions.elevationMedium,
+      color: backgroundColor ?? AppColors.surface,
       margin: const EdgeInsets.symmetric(vertical: AppDimensions.spaceS),
       child: InkWell(
         onTap: onTap,

@@ -14,12 +14,20 @@ abstract class AppColors {
   static const Color onSecondary = Color(0xFFFFFFFF);
   static const Color onSecondaryContainer = Color(0xFF2C1600);
 
+  // Accent Gold Palette (Celebration & Trophies)
+  static const Color accentGold = Color(0xFFFFC107);
+
   // Background & Surfaces (Soft, anti-glare warm cream)
   static const Color background = Color(0xFFFFF8F0);
   static const Color surface = Color(0xFFFFFFFF);
   static const Color surfaceVariant = Color(0xFFF4EFEA);
   static const Color onBackground = Color(0xFF1E293B);
   static const Color onSurface = Color(0xFF0F172A);
+
+  // High Contrast Mode Overrides
+  static const Color highContrastPrimary = Color(0xFF003D3B);
+  static const Color highContrastBackground = Color(0xFF000000);
+  static const Color highContrastText = Color(0xFFFFFFFF);
 
   // Safety & Emergency Red
   static const Color emergency = Color(0xFFD32F2F);

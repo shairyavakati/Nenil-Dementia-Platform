@@ -48,7 +48,7 @@ class _CelebrationOverlayState extends State<CelebrationOverlay> with SingleTick
     _controller.forward();
 
     // Spoken audio celebration
-    TTSService.speak('${widget.title}. ${widget.message}');
+    TtsService.speak('${widget.title}. ${widget.message}');
   }
 
   @override

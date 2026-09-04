@@ -2,7 +2,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 
 /// TtsService — Spoken text-to-speech guidance service for voice-first interactions.
+/// Exposes a static [speak] convenience method for fire-and-forget TTS from any screen.
 class TtsService {
+  static final TtsService _instance = TtsService._internal();
+  factory TtsService() => _instance;
+  TtsService._internal();
+
   final FlutterTts _flutterTts = FlutterTts();
   bool _isInitialized = false;
 
@@ -19,7 +24,7 @@ class TtsService {
     }
   }
 
-  Future<void> speak(String text) async {
+  Future<void> speakText(String text) async {
     if (!_isInitialized) await initialize();
     try {
       await _flutterTts.speak(text);
@@ -30,5 +35,12 @@ class TtsService {
 
   Future<void> stop() async {
     await _flutterTts.stop();
+  }
+
+  /// Static convenience method — fire-and-forget TTS from any widget or service.
+  static void speak(String text) {
+    _instance.speakText(text).catchError((e) {
+      debugPrint('[TtsService] Static speak error: $e');
+    });
   }
 }

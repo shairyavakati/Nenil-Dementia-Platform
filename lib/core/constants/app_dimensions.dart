@@ -12,6 +12,10 @@ abstract class AppDimensions {
   static const double spaceXL = 32.0;
   static const double spaceXXL = 48.0;
 
+  // Typography Sizes
+  static const double fontL = 20.0;
+  static const double fontXL = 28.0;
+
   // Border Radius
   static const double radiusS = 8.0;
   static const double radiusM = 16.0;
