@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_dimensions.dart';
 import '../../../core/constants/app_strings.dart';
 import '../../../shared/widgets/nenil_button.dart';
 import '../../../shared/widgets/nenil_card.dart';
+import '../providers/patient_profile_provider.dart';
 
-class StageSelectionScreen extends StatefulWidget {
+class StageSelectionScreen extends ConsumerWidget {
   const StageSelectionScreen({super.key});
 
   @override
-  State<StageSelectionScreen> createState() => _StageSelectionScreenState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final profileState = ref.watch(patientProfileProvider);
 
-class _StageSelectionScreenState extends State<StageSelectionScreen> {
-  String _selectedStage = 'mild';
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text(AppStrings.titleStageSelection)),
       body: SafeArea(
@@ -31,7 +29,7 @@ class _StageSelectionScreenState extends State<StageSelectionScreen> {
               ),
               const SizedBox(height: AppDimensions.spaceS),
               const Text(
-                'This adapts game choice complexity, audio guidance, and session length.',
+                'This adapts game choice complexity, audio guidance, and session targets.',
                 style: TextStyle(fontSize: 16),
               ),
               const SizedBox(height: AppDimensions.spaceL),
@@ -39,24 +37,36 @@ class _StageSelectionScreenState extends State<StageSelectionScreen> {
                 title: 'Mild (Early Stage)',
                 subtitle: 'Richer visual choices, 10–15 min sessions',
                 icon: Icons.filter_1_rounded,
-                onTap: () => setState(() => _selectedStage = 'mild'),
+                accentColor: profileState.stage == 'mild' ? AppColors.primary : AppColors.outline,
+                onTap: () {
+                  ref.read(patientProfileProvider.notifier).setStage('mild');
+                },
               ),
               NenilCard(
                 title: 'Moderate (Mid Stage)',
                 subtitle: 'Simplified 2-card choices, audio-first',
                 icon: Icons.filter_2_rounded,
-                onTap: () => setState(() => _selectedStage = 'moderate'),
+                accentColor: profileState.stage == 'moderate' ? AppColors.primary : AppColors.outline,
+                onTap: () {
+                  ref.read(patientProfileProvider.notifier).setStage('moderate');
+                },
               ),
               NenilCard(
                 title: 'Severe (Late Stage)',
                 subtitle: 'Single focal interaction, music & sensory focus',
                 icon: Icons.filter_3_rounded,
-                onTap: () => setState(() => _selectedStage = 'severe'),
+                accentColor: profileState.stage == 'severe' ? AppColors.primary : AppColors.outline,
+                onTap: () {
+                  ref.read(patientProfileProvider.notifier).setStage('severe');
+                },
               ),
               const Spacer(),
               NenilButton(
-                label: 'Go to Patient Home',
-                onPressed: () => context.go('/home'),
+                label: 'Save & Go to Patient Home',
+                onPressed: () async {
+                  await ref.read(patientProfileProvider.notifier).saveProfileToDatabase();
+                  if (context.mounted) context.go('/home');
+                },
               ),
             ],
           ),

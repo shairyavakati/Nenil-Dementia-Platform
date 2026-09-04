@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../features/auth/screens/caregiver_auth_screen.dart';
+import '../../features/auth/screens/pin_setup_screen.dart';
 import '../../features/caregiver/screens/caregiver_dashboard_screen.dart';
+import '../../features/caregiver/screens/voice_recording_screen.dart';
 import '../../features/emergency/screens/emergency_screen.dart';
 import '../../features/games/screens/game_completion_screen.dart';
 import '../../features/games/screens/game_module_screen.dart';
@@ -11,7 +13,7 @@ import '../../features/onboarding/screens/patient_profile_screen.dart';
 import '../../features/onboarding/screens/splash_screen.dart';
 import '../../features/onboarding/screens/stage_selection_screen.dart';
 
-/// AppRouter — GoRouter configuration managing all 10 screen routes in the Screen Build Order.
+/// AppRouter — GoRouter configuration managing all screen routes in Nenil.
 final GoRouter appRouter = GoRouter(
   initialLocation: '/',
   routes: [
@@ -26,6 +28,10 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: '/auth',
       builder: (context, state) => const CaregiverAuthScreen(),
+    ),
+    GoRoute(
+      path: '/pin-setup',
+      builder: (context, state) => const PinSetupScreen(),
     ),
     GoRoute(
       path: '/patient-profile',
@@ -53,6 +59,10 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: '/caregiver-dashboard',
       builder: (context, state) => const CaregiverDashboardScreen(),
+    ),
+    GoRoute(
+      path: '/voice-recording',
+      builder: (context, state) => const VoiceRecordingScreen(),
     ),
     GoRoute(
       path: '/emergency',

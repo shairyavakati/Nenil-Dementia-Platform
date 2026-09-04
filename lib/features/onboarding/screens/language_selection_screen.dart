@@ -1,23 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_dimensions.dart';
 import '../../../core/constants/app_strings.dart';
 import '../../../shared/widgets/nenil_button.dart';
 import '../../../shared/widgets/nenil_card.dart';
+import '../providers/language_provider.dart';
 
-class LanguageSelectionScreen extends StatefulWidget {
+class LanguageSelectionScreen extends ConsumerWidget {
   const LanguageSelectionScreen({super.key});
 
   @override
-  State<LanguageSelectionScreen> createState() => _LanguageSelectionScreenState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selectedLang = ref.watch(languageProvider);
 
-class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
-  String _selectedLang = 'en';
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text(AppStrings.titleLanguage)),
       body: SafeArea(
@@ -36,12 +33,14 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                   itemCount: AppStrings.languages.length,
                   itemBuilder: (context, index) {
                     final lang = AppStrings.languages[index];
-                    final isSelected = _selectedLang == lang['code'];
+                    final isSelected = selectedLang == lang['code'];
                     return NenilCard(
                       title: lang['name']!,
                       icon: isSelected ? Icons.check_circle_rounded : Icons.language_rounded,
                       accentColor: isSelected ? AppColors.primary : AppColors.outline,
-                      onTap: () => setState(() => _selectedLang = lang['code']!),
+                      onTap: () {
+                        ref.read(languageProvider.notifier).setLanguage(lang['code']!);
+                      },
                     );
                   },
                 ),
