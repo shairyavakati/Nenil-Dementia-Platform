@@ -17,9 +17,30 @@
 
 </div>
 
-Nenil is a culturally rooted mobile application designed to support elderly people living with dementia through stage-based cognitive games, caregiver personalization, familiar routines, voice guidance, and emergency care features. It is built for India's North East Region — a linguistically diverse, geographically remote area with limited access to specialist dementia care.
+Nenil is a culturally rooted mobile application designed to support elderly people living with dementia through stage-based cognitive games, caregiver personalization, familiar routines, voice guidance, and emergency care features. It is built for India's North East Region (NER) — a linguistically diverse, geographically remote area with limited access to specialist dementia care.
 
 **Nenil is not a medical diagnosis tool.** It is a cognitive support and wellbeing platform — purpose-built to reduce cognitive decline through meaningful, familiar, and joyful daily engagement.
+
+For detailed engineering standards, setup guides, and sprint execution rules, see the [DEVELOPMENT_WORKFLOW.md](./DEVELOPMENT_WORKFLOW.md).
+
+---
+
+## Product Vision
+
+Nenil is built as a **cognitive gaming platform** rather than a utility or clinical form-filling app. For elderly dementia patients, traditional apps are intimidating, confusing, and frustrating. Nenil shifts the paradigm by presenting cognitive support through calm, joyful, and culturally resonant gaming experiences.
+
+By tapping into preserved long-term memories — familiar melodies, household objects, personal family stories, and daily cultural routines — Nenil helps patients maintain neural pathways while giving caregivers a meaningful tool to connect with their loved ones every day.
+
+---
+
+## Core Gameplay
+
+Unlike standard brain-training apps that emphasize high scores, speed, or competitive leaderboards, Nenil reimagines cognitive gaming specifically for neurodegenerative care:
+
+- **Daily Cognitive Journey** — Patients experience a calm, guided daily routine of activities tailored to their time of day and energy level.
+- **No Scores or Timers** — Games progress at the patient's natural pace. Urgency cues and clock pressure are strictly eliminated.
+- **Positive Reinforcement Only** — There are no wrong answers, error sounds, or failure screens. Every attempt is greeted with gentle, encouraging feedback.
+- **Familiar Contexts** — Exercises use real family photos, caregiver voice recordings, and regional NER music rather than abstract puzzles.
 
 ---
 
@@ -52,49 +73,65 @@ Key pillars of the solution:
 
 ---
 
-## Key Features
+## User Journey
+
+```text
+Caregiver
+   │
+   ▼
+Creates Patient Profile ──► Selects Language & Dementia Stage
+   │
+   ▼
+Personalized Home ───────► Audio Greeting & Daily Routine Overview
+   │
+   ▼
+Today's Cognitive Journey─► Stage-Appropriate Activity Recommendation
+   │
+   ▼
+Game Session ────────────► Calm Gameplay with Caregiver Voice Guidance
+   │
+   ▼
+Caregiver Progress ──────► Session Analytics & Engagement Metrics Saved
+   │
+   ▼
+Safety Support ──────────► One-Tap SOS & Location Sharing Always Available
+```
+
+---
+
+## Feature Categories
 
 ### Cognitive Gaming
 
 | Game | Description |
 |---|---|
-| **My Daily Routine** | Guides patients through familiar morning-to-evening routines using audio and imagery |
+| **My Daily Routine** | Guides patients through familiar morning-to-evening routines using audio prompts and visual imagery |
 | **Find My Things** | Object-location memory exercises using personally meaningful household items |
-| **Family Faces & Stories** | Photo-based recognition games using the patient's own family photos and recorded captions |
-| **Music Memory Journey** | Familiar regional and personal music prompts emotional memory and engagement |
-| **Emotion Match** | Gentle emotion recognition exercises using illustrated familiar faces |
+| **Family Faces & Stories** | Photo-based recognition games using the patient's own family photos and caregiver audio captions |
+| **Music Memory Journey** | Familiar regional and personal music prompts emotional memory, nostalgia, and engagement |
+| **Emotion Match** | Gentle emotion recognition exercises using illustrated familiar faces and voice cues |
 
-### Personalization
+### Caregiver Companion
 
-- Stage-appropriate experience mapping (Early / Mid / Late)
-- Language and dialect selection at onboarding
-- Caregiver-recorded voice instructions for each game module
-- Daily routine customization by time of day and activity type
-- Personalized activity feed based on engagement history
+- **Patient–caregiver linking** — Secure QR code or numerical code account pairing
+- **Permission-based access** — Caregivers access only authorized features and settings
+- **Caregiver dashboard** — Central hub for managing patient profiles, games, routines, and voice recordings
+- **Session history** — Comprehensive logs of completed sessions, duration, and engagement levels
+- **Caregiver insights** — Behavioral trends and actionable engagement guidance for families
 
-### Caregiver Features
+### Safety Layer
 
-- Secure patient–caregiver account linking
-- Permission-based access control with PIN protection
-- Caregiver dashboard with session overview and trends
-- Full session history with engagement metrics
-- Caregiver insights and guidance notes
-
-### Safety Features
-
-- Emergency support with one-tap SOS
-- Direct calling to registered caregivers
-- Voice-activated emergency calling
-- Real-time location sharing with linked caregivers
-- Secure caregiver controls with audit trail
+- **Emergency support** — One-tap SOS trigger easily accessible from the patient home interface
+- **Direct calling** — Instant voice call connection to registered primary caregivers
+- **Voice-activated calling** — Spoken-word emergency call initiation for hands-free assistance
+- **Real-time location sharing** — Automatic GPS location broadcasting to linked caregivers during emergency triggers
 
 ### Accessibility
 
-- Large, high-contrast touch targets throughout
-- High contrast, glare-reduced UI optimized for aging vision
-- Audio-first guidance — every action has a spoken instruction
-- Full offline gameplay — no dependency on connectivity during use
-- PIN-protected caregiver mode to prevent accidental reconfiguration
+- **Large touch targets** — Minimum 56dp interaction areas optimized for aging motor control
+- **Voice-first interaction** — Spoken audio guidance for every screen, menu, and interactive prompt
+- **Offline-first gameplay** — Zero internet connection required for core gaming and daily routines
+- **PIN-protected caregiver mode** — Protects settings, profile data, and configuration from accidental alteration
 
 ---
 
@@ -136,7 +173,7 @@ The initial production build for SIH 2026 focuses on delivering a complete, stab
 
 ## Architecture
 
-```
+```text
 ┌─────────────────────────────────────────┐
 │              Flutter App                │
 │         (Dart · Material 3)             │
@@ -165,13 +202,13 @@ The initial production build for SIH 2026 focuses on delivering a complete, stab
                      │
                      ▼
 ┌─────────────────────────────────────────┐
-│          Caregiver Dashboard            │
+│          Caregiver Companion            │
 │    Session History · Insights · Config  │
 └────────────────────┬────────────────────┘
                      │
                      ▼
 ┌─────────────────────────────────────────┐
-│          Emergency Services             │
+│             Safety Layer                │
 │     SOS · Direct Call · Location        │
 └─────────────────────────────────────────┘
 ```
@@ -209,13 +246,15 @@ nenil/
 
 ## Development Roadmap
 
-| Sprint | Focus | Status |
-|---|---|---|
-| **Sprint 1 — Foundation** | Project setup, navigation, design system, onboarding flows, local database schema | `Complete` |
-| **Sprint 2 — Caregiver Setup** | Patient–caregiver linking, PIN auth, profile configuration, voice recording | `In Progress` |
-| **Sprint 3 — Core Games** | All five game modules with offline support and stage-based content | `Planned` |
-| **Sprint 4 — Safety Features** | Emergency SOS, caregiver calling, location sharing, caregiver controls | `Planned` |
-| **Sprint 5 — Production Polish** | Multilingual content packs, Supabase sync, accessibility audit, performance tuning | `Planned` |
+| Sprint | Focus | Gameplay / Engineering Outcome | Status |
+|---|---|---|---|
+| **Sprint 0 — Foundation** | Project setup, navigation, design system, local DB schema | App shell, theme tokens, router stubs, SQLite tables initialized | `Complete` |
+| **Sprint 1 — Caregiver World** | Patient & caregiver registration, PIN auth, profile setup, voice recording | Onboarding flow, PIN security, caregiver voice capture service | `In Progress` |
+| **Sprint 2 — Home Experience** | Personalized patient home screen, routine overview, daily journey feed | Functional home feed, audio greeting, stage-based activity selector | `Planned` |
+| **Sprint 3 — Core Game Pack** | All 5 MVP games (Routine, Things, Faces, Music, Emotions) | Complete offline game pack playable with voice guidance | `Planned` |
+| **Sprint 4 — Caregiver Companion** | Dashboard, patient-caregiver linking, session history, analytics | Caregiver dashboard live with session metrics & configuration tools | `Planned` |
+| **Sprint 5 — Safety Layer** | Emergency SOS, direct caregiver calling, location sharing | One-tap SOS and voice-activated emergency calling functional | `Planned` |
+| **Sprint 6 — Production Polish** | Offline background sync, Lottie animations, accessibility audit | Release-ready signed APK with background Supabase synchronization | `Planned` |
 
 ---
 
