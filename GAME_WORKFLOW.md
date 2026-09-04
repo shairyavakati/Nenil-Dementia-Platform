@@ -1,6 +1,6 @@
 # Nenil — Clinical Game Architecture & Engineering Blueprint
 
-> **Version:** 1.0.0 · **Status:** Active · **Lead Architect:** Senior Cognitive Researcher & Game Director
+> **Version:** 2.0.0 · **Status:** Active · **Lead Architect:** Senior Cognitive Researcher & Game Director
 >
 > This document is the single source of truth for clinical game mechanics, stage adaptation rules, spaced retrieval protocols, errorless learning guidelines, and the Reddit-style adaptive personalization feed engine in **Nenil**.
 
@@ -24,8 +24,8 @@ Nenil shifts the paradigm:
 
 | Stage | Session Length | Answer Choices | Cueing & Guidance Level | Core Game Modules |
 |---|---|---|---|---|
-| **Mild (Starting)** | 20–30 min | 2–4 cards | Visual & voice prompts on request | Multi-step routines, object-location, category sorting, safe home choices, local memory walk |
-| **Moderate (Middle)** | 15–25 min | 1–2 cards | Immediate automatic voice & visual guidance | Short routines, 1-step task, family photos, music memory, picture recipe, emotion match |
+| **Mild (Starting)** | 20–30 min | 2–4 cards | Visual & voice prompts on request | Multi-step routines, object-location, category sorting, safe home choices, local memory walk, word match |
+| **Moderate (Middle)** | 15–25 min | 1–2 cards | Immediate automatic voice & visual guidance | Short routines, 1-step task, family photos, music memory, picture recipe, emotion match, photo puzzle |
 | **Severe (Final)** | 5–15 min | 1–2 large cards | Continuous caregiver co-play & sensory audio | Music memory journey, comfort choices, emotion cards, sensory relaxation |
 
 ---
@@ -38,8 +38,8 @@ $$\text{PriorityScore} = \text{BaseStageWeight} + \text{InterestMatchBonus} + \t
 
 ### Feed Recommendation Rules:
 - **Morning Feed (06:00 - 12:00)**: Prioritizes prospective memory routines (`My Daily Routine`, `Virtual Garden`, `Call for Help Practice`).
-- **Afternoon Feed (12:00 - 17:00)**: Prioritizes active cognitive stimulation (`Find My Things`, `Picture Recipe Steps`, `Category Sorting`).
-- **Evening Feed (17:00 - 22:00)**: Prioritizes calming reminiscence (`Music Memory Journey`, `Family Faces & Stories`, `Comfort Choice Game`).
+- **Afternoon Feed (12:00 - 17:00)**: Prioritizes active cognitive stimulation (`Find My Things`, `Picture Recipe Steps`, `Category Sorting`, `Regional Word Match`).
+- **Evening Feed (17:00 - 22:00)**: Prioritizes calming reminiscence (`Music Memory Journey`, `Family Faces & Stories`, `Comfort Choice Game`, `Family Photo Puzzle`).
 
 ---
 
@@ -98,17 +98,32 @@ $$\text{PriorityScore} = \text{BaseStageWeight} + \text{InterestMatchBonus} + \t
 - **Clinical Target:** Spaced-retrieval safety training.
 - **Mechanics:** Repeatedly practice tapping the red emergency SOS button to reinforce emergency habits.
 
-### Module 14: Voice-Guided Object Hunt
-- **Clinical Target:** Supervised indoor attention and mobility (Mild stage only).
-- **Mechanics:** Audio prompt guides patient to find physical object in room with caregiver confirmation.
+### Module 14: Regional Word Match & Proverbs
+- **Clinical Target:** Semantic language recall and regional identity.
+- **Mechanics:** Match Assamese/NER words with visual cards and complete missing lines in regional folk rhymes.
 
-### Module 15: Caregiver Insights & Feed Adaptation
-- **Clinical Target:** Caregiver analytics and behavioral trend tracking.
-- **Mechanics:** Logs completion rate, mood ratings, cueing counts, and automatically adapts feed recommendations.
+### Module 15: Family Photo Jigsaw Puzzle
+- **Clinical Target:** Visuospatial organization and long-term memory stimulation.
+- **Mechanics:** Assemble 4 large visual tiles of family photos or familiar NER landmarks.
 
 ---
 
-## 5. Clinical Safety & Ethical Mandate
+## 5. Bio-Behavioral Distress Detection & Auto De-escalation
+
+### In-Game Behavioral Telemetry (`BehavioralDistressMonitor`)
+Tracks real-time interaction speed and error spikes:
+- **Tap Latency Spikes**: Significant delay between visual prompt and patient screen touch.
+- **Abrupt Error Bursts**: 3 consecutive non-target selections on a previously simple activity.
+- **Automated De-escalation Trigger**: Automatically pauses game, fades screen to soothing teal/gold background, plays soft TTS voice reassurance (*"Let's take a gentle rest together"*), and transitions to `Comfort Choice Game` or `Music Memory Journey`.
+
+### On-Device Computer Vision (`VisionDistressService`)
+- **Gesture Monitoring**: Periodic on-device front camera sampling (1 frame / 2 sec).
+- **Detected Signals**: Eye/forehead rubbing, head slumping, or posture restlessness.
+- **Privacy Assurance**: 100% on-device memory processing with zero video streaming or cloud storage.
+
+---
+
+## 6. Clinical Safety & Ethical Mandate
 
 - **Non-Diagnostic** — Platform is a cognitive support and wellbeing tool, not a medical or diagnostic device.
 - **No Safety Guarantee** — Game success must never be used as clinical proof of real-world unsupervised safety (e.g. cooking, driving, walking outside alone).

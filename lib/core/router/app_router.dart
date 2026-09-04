@@ -17,10 +17,12 @@ import '../../features/games/screens/find_my_things_game_screen.dart';
 import '../../features/games/screens/game_completion_screen.dart';
 import '../../features/games/screens/game_module_screen.dart';
 import '../../features/games/screens/music_memory_game_screen.dart';
+import '../../features/games/screens/photo_puzzle_screen.dart';
 import '../../features/games/screens/picture_recipe_screen.dart';
 import '../../features/games/screens/safe_home_choices_screen.dart';
 import '../../features/games/screens/sort_category_screen.dart';
 import '../../features/games/screens/virtual_garden_screen.dart';
+import '../../features/games/screens/word_match_game_screen.dart';
 import '../../features/home/screens/patient_home_screen.dart';
 import '../../features/onboarding/screens/language_selection_screen.dart';
 import '../../features/onboarding/screens/patient_profile_screen.dart';
@@ -104,6 +106,14 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: '/game/call_help_practice',
       builder: (context, state) => const CallForHelpPracticeScreen(),
+    ),
+    GoRoute(
+      path: '/game/word_match',
+      builder: (context, state) => const WordMatchGameScreen(),
+    ),
+    GoRoute(
+      path: '/game/photo_puzzle',
+      builder: (context, state) => const PhotoPuzzleScreen(),
     ),
     GoRoute(
       path: '/game/:gameId',

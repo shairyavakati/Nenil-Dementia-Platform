@@ -134,6 +134,24 @@ class AdaptiveFeedEngine {
         category: 'safety',
         priorityScore: 9.5,
       ),
+      const ActivityRecommendation(
+        id: 'word_match',
+        title: 'Regional Word Match',
+        description: 'Match regional NER language words to picture cards',
+        iconName: 'translate_rounded',
+        route: '/game/word_match',
+        category: 'memory',
+        priorityScore: 7.5,
+      ),
+      const ActivityRecommendation(
+        id: 'photo_puzzle',
+        title: 'Family Photo Puzzle',
+        description: 'Assemble 4-tile visual family photo puzzle',
+        iconName: 'extension_rounded',
+        route: '/game/photo_puzzle',
+        category: 'reminiscence',
+        priorityScore: 8.0,
+      ),
     ];
 
     // 2. Score adjustments based on time of day and stage

@@ -22,7 +22,7 @@ $expectedRoutes = @(
     '/caregiver-dashboard', '/session-history', '/patient-linking', '/voice-recording', '/emergency-config',
     '/game/daily_routine', '/game/find_things', '/game/family_faces', '/game/music_memory', '/game/emotion_match',
     '/game/safe_choices', '/game/picture_recipe', '/game/sort_category', '/game/virtual_garden', '/game/comfort_choice', '/game/call_help_practice',
-    '/game-completion', '/emergency'
+    '/game/word_match', '/game/photo_puzzle', '/game-completion', '/emergency'
 )
 
 $missingRoutes = @()
@@ -52,8 +52,8 @@ foreach ($table in $tables) {
 }
 
 # 4. Check Services & Clinical Engines
-Write-Host "[4/5] Verifying Services & Engines..." -ForegroundColor Yellow
-$services = @('audio_service.dart', 'call_service.dart', 'location_service.dart', 'permission_service.dart', 'sync_service.dart', 'tts_service.dart', 'voice_recording_service.dart')
+Write-Host "[4/5] Verifying Services & Clinical Telemetry..." -ForegroundColor Yellow
+$services = @('audio_service.dart', 'call_service.dart', 'location_service.dart', 'permission_service.dart', 'sync_service.dart', 'tts_service.dart', 'voice_recording_service.dart', 'vision_distress_service.dart')
 foreach ($service in $services) {
     if (Test-Path "lib/services/$service") {
         Write-Host "  [OK] Service '$service' present" -ForegroundColor Green
@@ -71,6 +71,9 @@ if (Test-Path "lib/features/games/engine/spaced_retrieval_engine.dart") {
 if (Test-Path "lib/features/games/engine/errorless_learning_handler.dart") {
     Write-Host "  [OK] ErrorlessLearningHandler present" -ForegroundColor Green
 }
+if (Test-Path "lib/features/games/engine/behavioral_distress_monitor.dart") {
+    Write-Host "  [OK] BehavioralDistressMonitor present" -ForegroundColor Green
+}
 
 # 5. Check All Cognitive Game Modules
 Write-Host "[5/5] Verifying Cognitive Game Modules..." -ForegroundColor Yellow
@@ -78,7 +81,8 @@ $games = @(
     'daily_routine_game_screen.dart', 'find_my_things_game_screen.dart', 'family_faces_game_screen.dart',
     'music_memory_game_screen.dart', 'emotion_match_game_screen.dart', 'safe_home_choices_screen.dart',
     'picture_recipe_screen.dart', 'sort_category_screen.dart', 'virtual_garden_screen.dart',
-    'comfort_choice_screen.dart', 'call_for_help_practice_screen.dart', 'game_completion_screen.dart'
+    'comfort_choice_screen.dart', 'call_for_help_practice_screen.dart', 'word_match_game_screen.dart',
+    'photo_puzzle_screen.dart', 'game_completion_screen.dart'
 )
 foreach ($game in $games) {
     if (Test-Path "lib/features/games/screens/$game") {
